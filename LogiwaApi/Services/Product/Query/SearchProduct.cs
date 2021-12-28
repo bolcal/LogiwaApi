@@ -1,5 +1,5 @@
-﻿using LinqKit;
-using LogiwaApi.Data;
+﻿using LogiwaApi.Data;
+using LogiwaApi.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -38,7 +38,7 @@ namespace LogiwaApi.Services.Product.Query
             public async Task<Response> Handle(Request request, CancellationToken cancellationToken)
             {
                 if (request.MinStock > request.MaxStock)
-                    throw new Exception();
+                    throw new InvalidRequestException("Min stock value cannot be greater than Max stock value");
 
                 var products = context.Products.Include(p => p.Category).Where(p => p.Category != null && p.StockQuantity >= p.Category.MinStockToLive);
 

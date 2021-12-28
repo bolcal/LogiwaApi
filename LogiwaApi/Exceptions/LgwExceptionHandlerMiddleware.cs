@@ -38,6 +38,13 @@ namespace LogiwaApi.Exceptions
                 response.StatusCode = (int)HttpStatusCode.BadRequest;
                 await response.WriteAsync(invalidTitle.Message);
             }
+            catch(InvalidRequestException invalidRequest)
+            {
+                var response = context.Response;
+                response.ContentType = "application/json";
+                response.StatusCode = (int)HttpStatusCode.BadRequest;
+                await response.WriteAsync(invalidRequest.Message);
+            }
             catch (Exception ex)
             {
                 var response = context.Response;
